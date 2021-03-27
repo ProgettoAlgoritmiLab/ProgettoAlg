@@ -15,6 +15,7 @@ public class Progetto {
         double Err = 0.001;
         Scanner in = new Scanner(System.in);
         int length = 1056;
+        int i = 32;
         int mode;
         ArrayList<Integer> periodi = new ArrayList<Integer>();
 
@@ -58,39 +59,94 @@ public class Progetto {
                     double Tmin = r * (1 / Err + 1);
                     start = System.currentTimeMillis();
                     int k = 0;
-                    do {
-                        StringBuilder s = generateString(length, mode);
-                        periodSmart(s);
-                        end = System.currentTimeMillis();
-                        k++;
-                    } while (end - start < Tmin);
+                    if(length == 1056) {
+                        do {
+                            StringBuilder s = generateWorstCase(length);
+                            periodi.add(periodSmart(s));
+                            end = System.currentTimeMillis();
+                            k++;
+                        } while (end - start < Tmin);
+                    } else {
+                        do {
+                            StringBuilder s = generateWorsCase(length);
+                            periodSmart(s);
+                            end = System.currentTimeMillis();
+                            k++;
+                        } while (end - start < Tmin);
+                    }
                     double Tn = ((end - start) / k);
                     System.out.println(Tn + ",");
+                    length = length + 2*(i++);
                 }
             }
         }
         
+        i = 32;
+        
         System.out.println("\n" + "Processo terminato");
+        
+        System.out.println("I periodi frazionari per stringhe di lunghezza mille sono: ");
+        for(int i=0; i<periodi.size(); i++) {
+            System.out.print(periodi.get(i) + ", ");
+        }
 
         System.out.print("\n" + "Inserire un numero per iniziare la stima dei tempi per il periodo frazionario naive: ");
 
-        Scanner scan2 = new Scanner(System.in);
-        if (scan2.hasNextInt()) {
-            System.out.println("Avvio calcolo:" + "\n");
-            for (int j = 0; j <= 129; j++) {
-                double r = getResolution();
-                double Tmin = r * (1 / Err + 1);
-                N[j] = (int) (A * (Math.pow(Math.exp(a), j))); //A*(B^j)
-                start = System.currentTimeMillis();
-                int m = 0;
-                do {
-                    StringBuilder s = generateString(N[j], mode);
-                    periodoFrazionarioNaive(s);
-                    end = System.currentTimeMillis();
-                    m++;
-                } while (end - start < Tmin);
-                double Tn = ((end - start) / m);
-                System.out.println(Tn + "," /*+ "  " + N[j] */);
+        if(mode <=3) {
+            if (in.hasNextInt()) {
+                System.out.println("Avvio calcolo:" + "\n");
+                for (int j = 0; j <= 129; j++) {
+                    double r = getResolution();
+                    double Tmin = r * (1 / Err + 1);
+                    N[j] = (int) (A * (Math.pow(Math.exp(a), j))); //A*(B^j)
+                    start = System.currentTimeMillis();
+                    int k = 0;
+                    if(N[j] == 1000) {
+                        do {
+                            StringBuilder s = generateString(N[j], mode);
+                            periodi.add(periodNaive(s));
+                            end = System.currentTimeMillis();
+                            k++;
+                        } while (end - start < Tmin);
+                    } else {
+                        do {
+                            StringBuilder s = generateString(N[j], mode);
+                            periodNaive(s);
+                            end = System.currentTimeMillis();
+                            k++;
+                        } while (end - start < Tmin);
+                    }
+                    double Tn = ((end - start) / k);
+                    System.out.println(Tn + ",");
+                }
+            }
+        } else {
+            if (in.hasNextInt()) {
+                System.out.println("Avvio calcolo:" + "\n");
+                while(length < 500000) {
+                    double r = getResolution();
+                    double Tmin = r * (1 / Err + 1);
+                    start = System.currentTimeMillis();
+                    int k = 0;
+                    if(length == 1056) {
+                        do {
+                            StringBuilder s = generateWorstCase(length);
+                            periodi.add(periodNaive(s));
+                            end = System.currentTimeMillis();
+                            k++;
+                        } while (end - start < Tmin);
+                    } else {
+                        do {
+                            StringBuilder s = generateWorstCase(length);
+                            periodNaive(s);
+                            end = System.currentTimeMillis();
+                            k++;
+                        } while (end - start < Tmin);
+                    }
+                    double Tn = ((end - start) / k);
+                    System.out.println(Tn + ",");
+                    length = length + 2*(i++)
+                }
             }
         }
         System.out.println("\n" + "Processo terminato");
@@ -144,7 +200,27 @@ public class Progetto {
                     s.append(s.charAt(i %( p+1)));
                 }
                 break;
+            case 4:
+                
         }
+        return s;
+    }
+    
+    public static StringBuilder generateWorstCase(int length) {
+        int i = 1;
+        int current = 0;
+        StringBuilder s = new StringBuilder(length);
+        while(current < length) {
+            for(int j = 0; j<i; j++) {
+                s.append('a');
+            }
+            for(int j = 0; j<i; j++) {
+                s.append('b');
+            }
+            current += 2*i;
+            i++;
+        }
+        
         return s;
     }
 
