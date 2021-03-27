@@ -1,13 +1,15 @@
-package LaboratorioAlg;
-
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Progetto {
 
     public static void main(String[] args) {
 
+        try {
         int A = 1000;
         double end;
         double start;
@@ -15,13 +17,21 @@ public class Progetto {
         double a = (Math.log(500000) - Math.log(A)) / 129;
         double Err = 0.001;
         Scanner in = new Scanner(System.in);
-        int length = 1056;
-        int i = 32;
-        ArrayList<Integer> periodi = new ArrayList<>();
+        int length = 1274;
+        int count = 181;
+        ArrayList<Integer> periodi = new ArrayList<Integer>();
+        File smart = new File("smart.txt");
+        File distribution = new File("distribuzione.txt");
+        File naive = new File("naive.txt");
+        FileWriter writerSmart = new FileWriter("smart.txt");
+        FileWriter writerDis = new FileWriter("distribuzione.txt");
+        FileWriter writerNaive = new FileWriter("naive.txt");
 
-        System.out.print("Inserire 1 o 2 o 3 o 4 per testare i tempi con uno dei quattro metodi di generazione stringhe(4=worst case):  ");
+        System.out.print("Inserire 1 se si vuole usare il metodo di generazione 1, 2 se si vuole usare il secondo, 3 per il terzo e 4 per il caso peggiore: ");
         int mode = in.nextInt();
         System.out.print("\n" + "Inserire un numero per iniziare la stima dei tempi per il periodo frazionario smart: ");
+        writerSmart.write("Tempi smart: \n");
+        
 
         if(mode <=3) {
             if (in.hasNextInt()) {
@@ -48,7 +58,8 @@ public class Progetto {
                         } while (end - start < Tmin);
                     }
                     double Tn = ((end - start) / k);
-                    System.out.println(Tn + "," + N[j]);
+                    writerSmart.write(Tn + ", ");
+                    System.out.print(Tn + ", ");
                 }
             }
         } else {
@@ -59,7 +70,7 @@ public class Progetto {
                     double Tmin = r * (1 / Err + 1);
                     start = System.currentTimeMillis();
                     int k = 0;
-                    if(length == 1056) {
+                    if(length == 1274) {
                         do {
                             StringBuilder s = generateWorstCase(length);
                             periodi.add(periodSmart(s));
@@ -75,24 +86,33 @@ public class Progetto {
                         } while (end - start < Tmin);
                     }
                     double Tn = ((end - start) / k);
-                    System.out.println(Tn + "," );
-                    length = length + 2*(i++);
+                    writerSmart.write(Tn + ", ");
+                    System.out.print(Tn + ", ");
+                    count = count + 30;
+                    length = length + 2*count; 
                 }
             }
         }
-
-        i = 32;
+    
+        length = 1274;
+        count = 181;
 
         System.out.println("\n" + "Processo terminato");
+        
+        writerDis.write("\nDistribuzione periodi: \n");
 
-        System.out.println("I periodi frazionari per stringhe di lunghezza mille sono: ");
-        for(int j=0; j<periodi.size(); i++) {
-            System.out.print(periodi.get(i) + ", ");
+        for(int i=0; i<periodi.size(); i++) {
+            writerDis.write(periodi.get(i) + ", ");
         }
 
-        System.out.print("\n" + "Inserire un numero per iniziare la stima dei tempi per il periodo frazionario naive,con il metodo di generazione stringhe scelto in precedenza: ");
+        Scanner scan1 = new Scanner(System.in);
+
+        writerNaive.write("\nTempi naive: \n");
+
+        System.out.println("Inserire un numero per iniziare la stima dei tempi per il periodo frazionario naive: ");
+
         if(mode <=3) {
-            if (in.hasNextInt()) {
+            if (scan1.hasNextInt()) {
                 System.out.println("Avvio calcolo:" + "\n");
                 for (int j = 0; j <= 129; j++) {
                     double r = getResolution();
@@ -116,7 +136,8 @@ public class Progetto {
                         } while (end - start < Tmin);
                     }
                     double Tn = ((end - start) / k);
-                    System.out.println(Tn + "," + N[j]);
+                    writerNaive.write(Tn + ",");
+                    System.out.print(Tn + ", ");
                 }
             }
         } else {
@@ -127,7 +148,7 @@ public class Progetto {
                     double Tmin = r * (1 / Err + 1);
                     start = System.currentTimeMillis();
                     int k = 0;
-                    if(length == 1056) {
+                    if(length == 1274) {
                         do {
                             StringBuilder s = generateWorstCase(length);
                             periodi.add(periodNaive(s));
@@ -143,12 +164,22 @@ public class Progetto {
                         } while (end - start < Tmin);
                     }
                     double Tn = ((end - start) / k);
-                    System.out.println(Tn + ",");
-                    length = length + 2*(i++);
+                    writerNaive.write(Tn + ",");
+                    System.out.print(Tn + ", ");
+                    count = count + 30;
+                    length = length + 2*count;
                 }
             }
         }
         System.out.println("\n" + "Processo terminato");
+        writerSmart.close();
+        writerNaive.close();
+        writerDis.close();
+        } catch(IOException e) {
+            System.out.println("Errore nella creazione/scrittura del file: \n");
+            e.printStackTrace();
+        }
+        
     }
 
 
@@ -200,11 +231,11 @@ public class Progetto {
                 }
                 break;
             case 4:
-
+                
         }
         return s;
     }
-
+    
     public static StringBuilder generateWorstCase(int length) {
         int i = 1;
         int current = 0;
@@ -217,9 +248,9 @@ public class Progetto {
                 s.append('b');
             }
             current += 2*i;
-            i++;
+            i = i+30;
         }
-
+        
         return s;
     }
 
