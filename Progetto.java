@@ -1,5 +1,6 @@
 package LaboratorioAlg;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -17,9 +18,9 @@ public class Progetto {
         int length = 1056;
         int i = 32;
         int mode;
-        ArrayList<Integer> periodi = new ArrayList<Integer>();
+        ArrayList<Integer> periodi = new ArrayList<>();
 
-        System.out.print("Inserire 1 se si vuole usare il metodo di generazione 1, 2 se si vuole usare il secondo: ");
+        System.out.print("Inserire 1 o 2 o 3 a per testare i tempi con uno dei tre metodi di generazione stringhe:  ");
         mode = in.nextInt();
         System.out.print("\n" + "Inserire un numero per iniziare la stima dei tempi per il periodo frazionario smart: ");
 
@@ -48,7 +49,7 @@ public class Progetto {
                         } while (end - start < Tmin);
                     }
                     double Tn = ((end - start) / k);
-                    System.out.println(Tn + ",");
+                    System.out.println(Tn + "," + N[j]);
                 }
             }
         } else {
@@ -68,31 +69,33 @@ public class Progetto {
                         } while (end - start < Tmin);
                     } else {
                         do {
-                            StringBuilder s = generateWorsCase(length);
+                            StringBuilder s = generateWorstCase(length);
                             periodSmart(s);
                             end = System.currentTimeMillis();
                             k++;
                         } while (end - start < Tmin);
                     }
                     double Tn = ((end - start) / k);
-                    System.out.println(Tn + ",");
+                    System.out.println(Tn + "," );
                     length = length + 2*(i++);
                 }
             }
         }
-        
+
         i = 32;
-        
+
         System.out.println("\n" + "Processo terminato");
-        
+
         System.out.println("I periodi frazionari per stringhe di lunghezza mille sono: ");
-        for(int i=0; i<periodi.size(); i++) {
+        for(int j=0; j<periodi.size(); i++) {
             System.out.print(periodi.get(i) + ", ");
         }
 
-        System.out.print("\n" + "Inserire un numero per iniziare la stima dei tempi per il periodo frazionario naive: ");
+        Scanner in2 = new Scanner(System.in);
 
-        if(mode <=3) {
+        System.out.print("\n" + "Inserire un numero da 1 a 3 per iniziare la stima dei tempi per il periodo frazionario naive,con il metodo di generazione stringhe scelto im precedenza: ");
+        int nn = in2.nextInt();
+        if(nn <=3) {
             if (in.hasNextInt()) {
                 System.out.println("Avvio calcolo:" + "\n");
                 for (int j = 0; j <= 129; j++) {
@@ -117,7 +120,7 @@ public class Progetto {
                         } while (end - start < Tmin);
                     }
                     double Tn = ((end - start) / k);
-                    System.out.println(Tn + ",");
+                    System.out.println(Tn + "," + N[j]);
                 }
             }
         } else {
@@ -201,11 +204,11 @@ public class Progetto {
                 }
                 break;
             case 4:
-                
+
         }
         return s;
     }
-    
+
     public static StringBuilder generateWorstCase(int length) {
         int i = 1;
         int current = 0;
@@ -220,7 +223,7 @@ public class Progetto {
             current += 2*i;
             i++;
         }
-        
+
         return s;
     }
 
@@ -233,7 +236,7 @@ public class Progetto {
         return (end - start);
     }
 
-    public static int periodoFrazionarioNaive(StringBuilder s) {
+    public static int periodNaive(StringBuilder s) {
         int n = s.length();
         for (int i = 1; i < n; i++) { //costo: O(n)
             String s1 = s.substring(0, n - i);
