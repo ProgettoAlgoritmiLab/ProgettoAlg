@@ -17,11 +17,10 @@ public class Progetto {
         Scanner in = new Scanner(System.in);
         int length = 1056;
         int i = 32;
-        int mode;
         ArrayList<Integer> periodi = new ArrayList<>();
 
-        System.out.print("Inserire 1 o 2 o 3 a per testare i tempi con uno dei tre metodi di generazione stringhe:  ");
-        mode = in.nextInt();
+        System.out.print("Inserire 1 o 2 o 3 o 4 per testare i tempi con uno dei quattro metodi di generazione stringhe:  ");
+        int mode = in.nextInt();
         System.out.print("\n" + "Inserire un numero per iniziare la stima dei tempi per il periodo frazionario smart: ");
 
         if(mode <=3) {
