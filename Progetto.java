@@ -145,7 +145,7 @@ public class Progetto {
                     }
                     double Tn = ((end - start) / k);
                     System.out.println(Tn + ",");
-                    length = length + 2*(i++)
+                    length = length + 2*(i++);
                 }
             }
         }
