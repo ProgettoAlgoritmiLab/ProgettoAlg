@@ -19,7 +19,7 @@ public class Progetto {
         int i = 32;
         ArrayList<Integer> periodi = new ArrayList<>();
 
-        System.out.print("Inserire 1 o 2 o 3 o 4 per testare i tempi con uno dei quattro metodi di generazione stringhe:  ");
+        System.out.print("Inserire 1 o 2 o 3 o 4 per testare i tempi con uno dei quattro metodi di generazione stringhe(4=worst case):  ");
         int mode = in.nextInt();
         System.out.print("\n" + "Inserire un numero per iniziare la stima dei tempi per il periodo frazionario smart: ");
 
@@ -90,11 +90,8 @@ public class Progetto {
             System.out.print(periodi.get(i) + ", ");
         }
 
-        Scanner in2 = new Scanner(System.in);
-
-        System.out.print("\n" + "Inserire un numero da 1 a 3 per iniziare la stima dei tempi per il periodo frazionario naive,con il metodo di generazione stringhe scelto im precedenza: ");
-        int nn = in2.nextInt();
-        if(nn <=3) {
+        System.out.print("\n" + "Inserire un numero per iniziare la stima dei tempi per il periodo frazionario naive,con il metodo di generazione stringhe scelto in precedenza: ");
+        if(mode <=3) {
             if (in.hasNextInt()) {
                 System.out.println("Avvio calcolo:" + "\n");
                 for (int j = 0; j <= 129; j++) {
