@@ -27,6 +27,7 @@ public class Progetto {
         FileWriter writerDis = new FileWriter("distribuzione.txt");
         FileWriter writerNaive = new FileWriter("naive.txt");
         int[] num_periodi = new int[1001];
+        int k = 0;
 
         System.out.print("Inserire 1 se si vuole usare il metodo di generazione 1, 2 se si vuole usare il secondo, 3 per il terzo e 4 per il caso peggiore: ");
         int mode = in.nextInt();
@@ -42,7 +43,6 @@ public class Progetto {
                     double Tmin = r * (1 / Err + 1);
                     N[j] = (int) (A * (Math.pow(Math.exp(a), j))); //A*(B^j)
                     start = System.currentTimeMillis();
-                    int k = 0;
                     if(N[j] == 1000) {
                         do {
                             StringBuilder s = generateString(N[j], mode);
@@ -70,7 +70,6 @@ public class Progetto {
                     double r = getResolution();
                     double Tmin = r * (1 / Err + 1);
                     start = System.currentTimeMillis();
-                    int k = 0;
                     if(length == 1274) {
                         do {
                             StringBuilder s = generateWorstCase(length);
@@ -127,7 +126,7 @@ public class Progetto {
                     double Tmin = r * (1 / Err + 1);
                     N[j] = (int) (A * (Math.pow(Math.exp(a), j))); //A*(B^j)
                     start = System.currentTimeMillis();
-                    int k = 0;
+                    k = 0;
                     if(N[j] == 1000) {
                         do {
                             StringBuilder s = generateString(N[j], mode);
@@ -155,7 +154,7 @@ public class Progetto {
                     double r = getResolution();
                     double Tmin = r * (1 / Err + 1);
                     start = System.currentTimeMillis();
-                    int k = 0;
+                    k = 0;
                     if(length == 1274) {
                         do {
                             StringBuilder s = generateWorstCase(length);
