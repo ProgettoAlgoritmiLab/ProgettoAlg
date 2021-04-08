@@ -27,7 +27,7 @@ public class Progetto {
         FileWriter writerDis = new FileWriter("distribuzione.txt");
         FileWriter writerNaive = new FileWriter("naive.txt");
         int[] num_periodi = new int[1001];
-        int k = 0;
+        int reps = 0;
 
         System.out.print("Inserire 1 se si vuole usare il metodo di generazione 1, 2 se si vuole usare il secondo, 3 per il terzo e 4 per il caso peggiore: ");
         int mode = in.nextInt();
@@ -43,22 +43,15 @@ public class Progetto {
                     double Tmin = r * (1 / Err + 1);
                     N[j] = (int) (A * (Math.pow(Math.exp(a), j))); //A*(B^j)
                     start = System.currentTimeMillis();
-                    if(N[j] == 1000) {
-                        do {
-                            StringBuilder s = generateString(N[j], mode);
-                            periodi.add(periodSmart(s));
-                            end = System.currentTimeMillis();
-                            k++;
-                        } while (end - start < Tmin);
-                    } else {
-                        do {
-                            StringBuilder s = generateString(N[j], mode);
-                            periodSmart(s);
-                            end = System.currentTimeMillis();
-                            k++;
-                        } while (end - start < Tmin);
-                    }
+                    int k = 0;
+                    do {
+                        StringBuilder s = generateString(N[j], mode);
+                        if(N[j] == 1000) periodi.add(periodSmart(s));
+                        end = System.currentTimeMillis();
+                        k++;
+                    } while (end - start < Tmin);
                     double Tn = ((end - start) / k);
+                    if(N[j] == 1000) reps = k;
                     writerSmart.write(Tn + ", ");
                     System.out.print(Tn + ", ");
                 }
@@ -70,21 +63,13 @@ public class Progetto {
                     double r = getResolution();
                     double Tmin = r * (1 / Err + 1);
                     start = System.currentTimeMillis();
-                    if(length == 1274) {
-                        do {
-                            StringBuilder s = generateWorstCase(length);
-                            periodi.add(periodSmart(s));
-                            end = System.currentTimeMillis();
-                            k++;
-                        } while (end - start < Tmin);
-                    } else {
-                        do {
-                            StringBuilder s = generateWorstCase(length);
-                            periodSmart(s);
-                            end = System.currentTimeMillis();
-                            k++;
-                        } while (end - start < Tmin);
-                    }
+                    int k = 0;
+                    do {
+                        StringBuilder s = generateWorstCase(length);
+                        if(length == 1274) periodi.add(periodSmart(s));
+                        end = System.currentTimeMillis();
+                        k++;
+                    } while (end - start < Tmin);
                     double Tn = ((end - start) / k);
                     writerSmart.write(Tn + ", ");
                     System.out.print(Tn + ", ");
@@ -107,7 +92,7 @@ public class Progetto {
             num_periodi[temp]++;
         }
         for(int i=1; i<1001; i++) {
-            num_periodi[i] /= k;
+            num_periodi[i] /= reps;
             writerDis.write(num_periodi[i] + ", ");
         }
 
@@ -126,22 +111,13 @@ public class Progetto {
                     double Tmin = r * (1 / Err + 1);
                     N[j] = (int) (A * (Math.pow(Math.exp(a), j))); //A*(B^j)
                     start = System.currentTimeMillis();
-                    k = 0;
-                    if(N[j] == 1000) {
-                        do {
-                            StringBuilder s = generateString(N[j], mode);
-                            periodi.add(periodNaive(s));
-                            end = System.currentTimeMillis();
-                            k++;
-                        } while (end - start < Tmin);
-                    } else {
-                        do {
-                            StringBuilder s = generateString(N[j], mode);
-                            periodNaive(s);
-                            end = System.currentTimeMillis();
-                            k++;
-                        } while (end - start < Tmin);
-                    }
+                    int k = 0;
+                    do {
+                        StringBuilder s = generateString(N[j], mode);
+                        if(N[j] == 1000) periodi.add(periodNaive(s));
+                        end = System.currentTimeMillis();
+                        k++;
+                    } while (end - start < Tmin);
                     double Tn = ((end - start) / k);
                     writerNaive.write(Tn + ",");
                     System.out.print(Tn + ", ");
@@ -154,22 +130,13 @@ public class Progetto {
                     double r = getResolution();
                     double Tmin = r * (1 / Err + 1);
                     start = System.currentTimeMillis();
-                    k = 0;
-                    if(length == 1274) {
-                        do {
-                            StringBuilder s = generateWorstCase(length);
-                            periodi.add(periodNaive(s));
-                            end = System.currentTimeMillis();
-                            k++;
-                        } while (end - start < Tmin);
-                    } else {
-                        do {
-                            StringBuilder s = generateWorstCase(length);
-                            periodNaive(s);
-                            end = System.currentTimeMillis();
-                            k++;
-                        } while (end - start < Tmin);
-                    }
+                    int k = 0;
+                    do {
+                        StringBuilder s = generateWorstCase(length);
+                        if(length == 1274) periodi.add(periodNaive(s));
+                        end = System.currentTimeMillis();
+                        k++;
+                    } while (end - start < Tmin);
                     double Tn = ((end - start) / k);
                     writerNaive.write(Tn + ",");
                     System.out.print(Tn + ", ");
