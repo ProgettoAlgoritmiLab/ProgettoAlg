@@ -26,6 +26,7 @@ public class Progetto {
         FileWriter writerSmart = new FileWriter("smart.txt");
         FileWriter writerDis = new FileWriter("distribuzione.txt");
         FileWriter writerNaive = new FileWriter("naive.txt");
+        int[] num_periodi = new int[1001];
 
         System.out.print("Inserire 1 se si vuole usare il metodo di generazione 1, 2 se si vuole usare il secondo, 3 per il terzo e 4 per il caso peggiore: ");
         int mode = in.nextInt();
@@ -101,9 +102,16 @@ public class Progetto {
         
         writerDis.write("\nDistribuzione periodi: \n");
 
+        int temp;
         for(int i=0; i<periodi.size(); i++) {
-            writerDis.write(periodi.get(i) + ", ");
+            temp = periodi.get(i);
+            num_periodi[temp]++;
         }
+        for(int i=1; i<1001; i++) {
+            num_periodi[i] /= k;
+            writerDis.write(num_periodi[i] + ", ");
+        }
+
 
         Scanner scan1 = new Scanner(System.in);
 
