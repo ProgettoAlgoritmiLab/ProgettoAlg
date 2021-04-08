@@ -26,7 +26,7 @@ public class Progetto {
         FileWriter writerSmart = new FileWriter("smart.txt");
         FileWriter writerDis = new FileWriter("distribuzione.txt");
         FileWriter writerNaive = new FileWriter("naive.txt");
-        int[] num_periodi = new int[1001];
+        double[] num_periodi = new double[1001];
         int reps = 0;
 
         System.out.print("Inserire 1 se si vuole usare il metodo di generazione 1, 2 se si vuole usare il secondo, 3 per il terzo e 4 per il caso peggiore: ");
@@ -46,7 +46,11 @@ public class Progetto {
                     int k = 0;
                     do {
                         StringBuilder s = generateString(N[j], mode);
-                        if(N[j] == 1000) periodi.add(periodSmart(s));
+                        if(N[j] == 1000) {
+                            periodi.add(periodSmart(s));
+                        } else {
+                            periodSmart(s);
+                        }
                         end = System.currentTimeMillis();
                         k++;
                     } while (end - start < Tmin);
@@ -66,7 +70,11 @@ public class Progetto {
                     int k = 0;
                     do {
                         StringBuilder s = generateWorstCase(length);
-                        if(length == 1274) periodi.add(periodSmart(s));
+                        if(length == 1274) {
+                            periodi.add(periodSmart(s));
+                        } else {
+                            periodSmart(s);
+                        }
                         end = System.currentTimeMillis();
                         k++;
                     } while (end - start < Tmin);
@@ -91,11 +99,11 @@ public class Progetto {
             temp = periodi.get(i);
             num_periodi[temp]++;
         }
+        System.out.println(reps);
         for(int i=1; i<1001; i++) {
             num_periodi[i] /= reps;
-            writerDis.write(num_periodi[i] + ", ");
+            writerDis.write(num_periodi[i] + ",\n");
         }
-
 
         Scanner scan1 = new Scanner(System.in);
 
@@ -114,7 +122,11 @@ public class Progetto {
                     int k = 0;
                     do {
                         StringBuilder s = generateString(N[j], mode);
-                        if(N[j] == 1000) periodi.add(periodNaive(s));
+                        if(N[j] == 1000) {
+                            periodi.add(periodNaive(s));
+                        } else {
+                            periodNaive(s);
+                        }
                         end = System.currentTimeMillis();
                         k++;
                     } while (end - start < Tmin);
@@ -133,7 +145,11 @@ public class Progetto {
                     int k = 0;
                     do {
                         StringBuilder s = generateWorstCase(length);
-                        if(length == 1274) periodi.add(periodNaive(s));
+                        if(length == 1274) {
+                            periodi.add(periodNaive(s));
+                        } else {
+                            periodNaive(s);
+                        }
                         end = System.currentTimeMillis();
                         k++;
                     } while (end - start < Tmin);
