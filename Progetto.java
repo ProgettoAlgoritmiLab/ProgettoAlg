@@ -26,7 +26,8 @@ public class Progetto {
         FileWriter writerSmart = new FileWriter("smart.txt");
         FileWriter writerDis = new FileWriter("distribuzione.txt");
         FileWriter writerNaive = new FileWriter("naive.txt");
-        double[] num_periodi = new double[1001];
+        double[] num_periodi = new double[101];
+        double[] num_periodi_worst = new double[187];
         int reps = 0;
 
         System.out.print("Inserire 1 se si vuole usare il metodo di generazione 1, 2 se si vuole usare il secondo, 3 per il terzo e 4 per il caso peggiore: ");
@@ -55,7 +56,6 @@ public class Progetto {
                         k++;
                     } while (end - start < Tmin);
                     double Tn = ((end - start) / k);
-                    if(N[j] == 1000) reps = k;
                     writerSmart.write(Tn + ", ");
                     System.out.print(Tn + ", ");
                 }
@@ -95,15 +95,36 @@ public class Progetto {
         writerDis.write("\nDistribuzione periodi: \n");
 
         int temp;
-        for(int i=0; i<periodi.size(); i++) {
-            temp = periodi.get(i);
-            num_periodi[temp]++;
+        double r = getResolution();
+        double Tmin = r * (1 / Err + 1);
+        start = System.currentTimeMillis();
+        int k = 0;
+        do {
+            StringBuilder s;
+            if(mode <= 3) {
+                s = generateString(100, mode);
+                temp = periodSmart(s);
+                num_periodi[temp]++;
+            } else {
+                s = generateWorstCase(186);
+                temp = periodSmart(s);
+                num_periodi_worst[temp]++;
+            }
+            end = System.currentTimeMillis();
+            k++;
+        } while (end - start < Tmin);
+        reps = k;
+
+        if(mode <= 3) {
+            for(int i=1; i<=100; i++) {
+            writerDis.write(num_periodi[i]/reps + ",\n");
+            }
+        } else {
+            for(int i=1; i<=186; i++) {
+                writerDis.write(num_periodi_worst[i]/reps + ",\n");
+            }
         }
-        System.out.println(reps);
-        for(int i=1; i<1001; i++) {
-            num_periodi[i] /= reps;
-            writerDis.write(num_periodi[i] + ",\n");
-        }
+        
 
         Scanner scan1 = new Scanner(System.in);
 
@@ -119,7 +140,7 @@ public class Progetto {
                     double Tmin = r * (1 / Err + 1);
                     N[j] = (int) (A * (Math.pow(Math.exp(a), j))); //A*(B^j)
                     start = System.currentTimeMillis();
-                    int k = 0;
+                    k = 0;
                     do {
                         StringBuilder s = generateString(N[j], mode);
                         if(N[j] == 1000) {
@@ -142,7 +163,7 @@ public class Progetto {
                     double r = getResolution();
                     double Tmin = r * (1 / Err + 1);
                     start = System.currentTimeMillis();
-                    int k = 0;
+                    k = 0;
                     do {
                         StringBuilder s = generateWorstCase(length);
                         if(length == 1274) {
