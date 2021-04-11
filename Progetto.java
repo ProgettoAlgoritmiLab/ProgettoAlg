@@ -136,8 +136,8 @@ public class Progetto {
             if (scan1.hasNextInt()) {
                 System.out.println("Avvio calcolo:" + "\n");
                 for (int j = 0; j <= 129; j++) {
-                    double r = getResolution();
-                    double Tmin = r * (1 / Err + 1);
+                    r = getResolution();
+                    Tmin = r * (1 / Err + 1);
                     N[j] = (int) (A * (Math.pow(Math.exp(a), j))); //A*(B^j)
                     start = System.currentTimeMillis();
                     k = 0;
@@ -160,8 +160,8 @@ public class Progetto {
             if (in.hasNextInt()) {
                 System.out.println("Avvio calcolo:" + "\n");
                 while(length < 500000) {
-                    double r = getResolution();
-                    double Tmin = r * (1 / Err + 1);
+                    r = getResolution();
+                    Tmin = r * (1 / Err + 1);
                     start = System.currentTimeMillis();
                     k = 0;
                     do {
